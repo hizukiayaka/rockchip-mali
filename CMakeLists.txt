@@ -14,7 +14,7 @@ CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/mali.pc.cmake"
 	"${CMAKE_CURRENT_BINARY_DIR}/mali.pc" @ONLY)
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/wayland-egl.pc.cmake"
 	"${CMAKE_CURRENT_BINARY_DIR}/wayland-egl.pc" @ONLY)
-CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/opencl.pc.cmake"
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/pkgconfig/OpenCL.pc.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/OpenCL.pc" @ONLY)
 
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/include/mali.icd"
