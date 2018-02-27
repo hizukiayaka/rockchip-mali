@@ -32,9 +32,7 @@ extern "C"
 #include <KHR/khrplatform.h>
 #include <stdint.h>
 
-#if defined(EGL_FBDEV) || defined(EGL_DUMMY)
 #include "mali_fbdev_types.h"
-#endif
 
 #ifndef EGLAPI
 #define EGLAPI
@@ -48,20 +46,11 @@ extern "C"
 #define EGLAPIENTRYP EGLAPIENTRY *
 #endif
 
-#if defined(EGL_FBDEV) || defined(EGL_DUMMY)
 typedef fbdev_window * EGLNativeWindowType;
 
 typedef int32_t EGLNativePixmapType;
 
-#endif
-
-#ifdef EGL_FBDEV
 typedef void * EGLNativeDisplayType;
-#elif defined(EGL_DUMMY)
-typedef dummy_display * EGLNativeDisplayType;
-#else
-#error "Window system unknown"
-#endif
 
 typedef EGLNativeWindowType NativeWindowType;
 typedef EGLNativePixmapType NativePixmapType;

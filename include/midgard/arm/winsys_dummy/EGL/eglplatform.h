@@ -15,4 +15,51 @@
  * under the License.
  */
 
-#include <khronos/arm/winsys_fbdev/EGL/eglplatform.h>
+/**
+ * @file eglplatform.h
+ * Platform related definitions
+ */
+
+#ifndef _EGLPLATFORM_H_
+#define _EGLPLATFORM_H_
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif /* __cplusplus */
+
+
+#include <KHR/khrplatform.h>
+#include <stdint.h>
+
+#include "mali_fbdev_types.h"
+
+#ifndef EGLAPI
+#define EGLAPI
+#endif
+
+#ifndef EGLAPIENTRY
+#define EGLAPIENTRY
+#endif
+
+#ifndef EGLAPIENTRYP
+#define EGLAPIENTRYP EGLAPIENTRY *
+#endif
+
+typedef fbdev_window * EGLNativeWindowType;
+
+typedef int32_t EGLNativePixmapType;
+
+typedef dummy_display * EGLNativeDisplayType;
+
+typedef EGLNativeWindowType NativeWindowType;
+typedef EGLNativePixmapType NativePixmapType;
+typedef EGLNativeDisplayType NativeDisplayType;
+
+typedef int32_t EGLint;
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* _EGLPLATFORM_H_ */

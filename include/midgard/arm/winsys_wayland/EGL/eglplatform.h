@@ -30,7 +30,6 @@ extern "C"
 
 #include <KHR/khrplatform.h>
 
-#if defined(EGL_WAYLAND)
 #ifndef EGLAPI
 #define EGLAPI KHRONOS_APICALL
 #endif
@@ -59,10 +58,6 @@ typedef EGLNativeWindowType  NativeWindowType;
  * integer type.
  */
 typedef khronos_int32_t EGLint;
-
-#else
-#error "Unsupported platform"
-#endif
 
 #ifdef __cplusplus
 }
