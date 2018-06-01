@@ -189,15 +189,20 @@ enum gbm_bo_format {
  */
 enum gbm_bo_flags {
    /**
+    * Mali doesn't use or support this flag
+    */
+   GBM_BO_USE_LINEAR       = (0),
+   /**
     * Buffer is going to be presented to the screen using an API such as KMS
     */
    GBM_BO_USE_SCANOUT      = (1 << 0),
-   /**
-    * Buffer is going to be used as cursor
-    */
+    /**
+     * Buffer is going to be used as cursor
+     */
    GBM_BO_USE_CURSOR       = (1 << 1),
    /**
-    * Deprecated
+    * Buffer is going to be used as cursor - the dimensions for the buffer
+    * must be 64x64 if this flag is passed.
     */
    GBM_BO_USE_CURSOR_64X64 = GBM_BO_USE_CURSOR,
    /**
@@ -207,13 +212,10 @@ enum gbm_bo_flags {
    GBM_BO_USE_RENDERING    = (1 << 2),
    /**
     * Buffer can be used for gbm_bo_write.  This is guaranteed to work
-    * with GBM_BO_USE_CURSOR. but may not work for other combinations.
+    * with GBM_BO_USE_CURSOR_64X64. but may not work for other
+    * combinations.
     */
    GBM_BO_USE_WRITE    = (1 << 3),
-   /**
-    * Buffer is linear, i.e. not tiled.
-    */
-   GBM_BO_USE_LINEAR = (1 << 4),
 };
 
 int
@@ -253,6 +255,34 @@ struct gbm_bo *
 gbm_bo_import(struct gbm_device *gbm, uint32_t type,
               void *buffer, uint32_t usage);
 
+/**
+ * Mali doesn't support those flags
+ */
+enum gbm_bo_transfer_flags {
+   /**
+    * Buffer contents read back (or accessed directly) at transfer
+    * create time.
+    */
+   GBM_BO_TRANSFER_READ       = (0),
+   /**
+    * Buffer contents will be written back at unmap time
+    * (or modified as a result of being accessed directly).
+    */
+   GBM_BO_TRANSFER_WRITE      = (0),
+   /**
+    * Read/modify/write
+    */
+   GBM_BO_TRANSFER_READ_WRITE = (0),
+};
+
+void *
+gbm_bo_map(struct gbm_bo *bo,
+           uint32_t x, uint32_t y, uint32_t width, uint32_t height,
+           uint32_t flags, uint32_t *stride, void **mp_data);
+
+void
+gbm_bo_unmap(struct gbm_bo *bo, void *map_data);
+
 uint32_t
 gbm_bo_get_width(struct gbm_bo *bo);
 
@@ -277,6 +307,8 @@ gbm_bo_get_fd(struct gbm_bo *bo);
 int
 gbm_bo_write(struct gbm_bo *bo, const void *buf, size_t count);
 
+struct gbm_bo *gbm_bo_ref(struct gbm_bo *);
+void gbm_bo_unref(struct gbm_bo *);
 void
 gbm_bo_set_user_data(struct gbm_bo *bo, void *data,
 		     void (*destroy_user_data)(struct gbm_bo *, void *));
@@ -291,9 +323,6 @@ struct gbm_surface *
 gbm_surface_create(struct gbm_device *gbm,
                    uint32_t width, uint32_t height,
 		   uint32_t format, uint32_t flags);
-
-int
-gbm_surface_needs_lock_front_buffer(struct gbm_surface *surface);
 
 struct gbm_bo *
 gbm_surface_lock_front_buffer(struct gbm_surface *surface);
